@@ -32,6 +32,7 @@ class Publication(models.Model):
     shorts_description = models.CharField(verbose_name="кротький описание", max_length=255, null=True)
     description = RichTextField(null=True)
     hashtags = models.ManyToManyField(Hashtag, blank=True)
+    is_active = models.BooleanField(default=True)
 
     class Meta:
         verbose_name_plural = 'Публикация'

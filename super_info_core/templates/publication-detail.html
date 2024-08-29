@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load i18n %}
 {% block content %}
 
     <div class="container-fluid">
@@ -7,12 +8,14 @@
             <!-- Search form -->
             <div class="row tm-row">
                 <div class="col-12">
-                    <form method="GET" class="form-inline tm-mb-80 tm-search-form">                
-                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Search..." aria-label="Search">
+
+                    <form method="GET" action="{% url 'home-search-url' %}" class="form-inline tm-mb-80 tm-search-form">
+                        <input class="form-control tm-search-input" name="query" type="text" placeholder="{% trans 'ПОИСК...' %}" aria-label="Search">
                         <button class="tm-search-button" type="submit">
                             <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
                         </button>                                
                     </form>
+
                 </div>
             </div>
             <div class="row tm-row">
@@ -20,7 +23,7 @@
                     <div class="tm-post-full">                    
                         <div class="mb-4">
                             <h2 class="pt-2 tm-color-primary tm-post-title">{{publication.title}}</h2>
-                            <p class="tm-mb-40">{{publication.category }}</p>
+                            <p class="tm-mb-40">{{publication.category.title }}</p>
                             <p class="tm-mb-40">{{publication.created_date}}</p>
 
                             <img src="{{publication.image.url}}" alt="Image" class="img-fluid">
@@ -28,8 +31,8 @@
                             <p>
                                  {{publication.description|safe }}
                             </p>
-                            <span class="d-block text-right tm-color-primary">Hashtags:
-                                {% for hashtag in hashtags %}
+                            <span class="d-block text-right tm-color-primary">{% trans 'Хештеги' %}:
+                                {% for hashtag in publication.hashtags.all %}
                                #{{hashtag.title}}
                                 {% endfor %}
                             </span>
@@ -37,7 +40,7 @@
                         
                         <!-- Comments -->
                         <div>
-                            <h2 class="tm-color-primary tm-post-title">Comments</h2>
+                            <h2 class="tm-color-primary tm-post-title">{% trans 'Коментарии' %}</h2>
                             <hr class="tm-hr-primary tm-mb-45">
 
                             {% for item in publication.comments.all %}
@@ -59,15 +62,15 @@
 
                             <form method="POST" action="create-comment/" class="mb-5 tm-comment-form">
                                 {% csrf_token %}
-                                <h2 class="tm-color-primary tm-post-title mb-4">Your comment</h2>
+                                <h2 class="tm-color-primary tm-post-title mb-4">{% trans 'Ваш комментарий' %}</h2>
                                 <div class="mb-4">
-                                    <input class="form-control" name="name" type="text" placeholder="Your name">
+                                    <input class="form-control" name="name" type="text" placeholder="{% trans 'Ваше имя' %}">
                                 </div>
                                 <div class="mb-4">
-                                    <textarea class="form-control" name="message" rows="6" placeholder="Your comment text"></textarea>
+                                    <textarea class="form-control" name="message" rows="6" placeholder="{% trans 'Текст вашего комментария' %}"></textarea>
                                 </div>
                                 <div class="text-right">
-                                    <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
+                                    <button class="tm-btn tm-btn-primary tm-btn-small">{% trans 'ОТПРАВИТЬ' %}</button>
                                 </div>                                
                             </form>                          
                         </div>
@@ -76,7 +79,7 @@
                 <aside class="col-lg-4 tm-aside-col">
                     <div class="tm-post-sidebar">
                         <hr class="mb-3 tm-hr-primary">
-                        <h2 class="mb-4 tm-post-title tm-color-primary">Categories</h2>
+                        <h2 class="mb-4 tm-post-title tm-color-primary">{% trans 'Категории' %}</h2>
                         <ul class="tm-mb-75 pl-5 tm-category-list">
                             {% for category in category_list %}
                             <li><a href="#" class="tm-color-primary">{{category.title}}</a></li>
@@ -84,15 +87,17 @@
                         </ul>
 
                         <hr class="mb-3 tm-hr-primary">
-                        <h2 class="tm-mb-40 tm-post-title tm-color-primary">Related Posts</h2>
+                        <h2 class="tm-mb-40 tm-post-title tm-color-primary">{% trans 'Связанные посты' %}</h2>
+                        {% for post in related_post_list %}
 
-                        <a href="#" class="d-block tm-mb-40">
+                        <a href="{% url 'publication-detail' post.id %}" class="d-block tm-mb-40">
                             <figure>
-                                <img src="img/img-02.jpg" alt="Image" class="mb-3 img-fluid">
-                                <figcaption class="tm-color-primary">Duis mollis diam nec ex viverra scelerisque a sit</figcaption>
+                                <img src="{{ post.image.url }}" alt="Image" class="mb-3 img-fluid">
+                                <figcaption class="tm-color-primary">{{post.title}}</figcaption>
                             </figure>
                         </a>
 
+                        {% endfor %}
                     </div>                    
                 </aside>
             </div>

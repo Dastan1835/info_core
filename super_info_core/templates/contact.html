@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static
+{% load i18n %}
 {% block content %}
 
     <div class="container-fluid">
@@ -8,7 +9,7 @@
             <div class="row tm-row">
                 <div class="col-12">
                     <form method="GET" class="form-inline tm-mb-80 tm-search-form">                
-                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Search..." aria-label="Search">
+                        <input class="form-control tm-search-input" name="query" type="text" placeholder="{% trans 'ПОИСК...' %}" aria-label="Search">
                         <button class="tm-search-button" type="submit">
                             <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
                         </button>                                
@@ -17,39 +18,39 @@
             </div>            
             <div class="row tm-row tm-mb-120">
                 <div class="col-12">
-                    <h2 class="tm-color-primary tm-post-title tm-mb-60">Contact Us</h2>
+                    <h2 class="tm-color-primary tm-post-title tm-mb-60">{% trans 'Связаться с нами' %}</h2>
                 </div>
                 <div class="col-lg-7 tm-contact-left">
 
                     <form method="POST" action="create-contact/" class="mb-5 ml-auto mr-0 tm-contact-form">
                         {% csrf_token %}
                         <div class="form-group row mb-4">
-                            <label for="name" class="col-sm-3 col-form-label text-right tm-color-primary">Name</label>
+                            <label for="name" class="col-sm-3 col-form-label text-right tm-color-primary">{% trans 'Имя' %}</label>
                             <div class="col-sm-9">
                                 <input class="form-control mr-0 ml-auto" name="name" id="name" type="text" required>                            
                             </div>
                         </div>
                         <div class="form-group row mb-4">
-                            <label for="email" class="col-sm-3 col-form-label text-right tm-color-primary">Email</label>
+                            <label for="email" class="col-sm-3 col-form-label text-right tm-color-primary">{% trans 'Email почта' %}</label>
                             <div class="col-sm-9">
                                 <input class="form-control mr-0 ml-auto" name="email" id="email" type="email" required>
                             </div>
                         </div>
                         <div class="form-group row mb-4">
-                            <label for="subject" class="col-sm-3 col-form-label text-right tm-color-primary">Subject</label>
+                            <label for="subject" class="col-sm-3 col-form-label text-right tm-color-primary">{% trans 'Предмет' %}</label>
                             <div class="col-sm-9">
                                 <input class="form-control mr-0 ml-auto" name="subject" id="subject" type="text" required>
                             </div>
                         </div>
                         <div class="form-group row mb-5">
-                            <label for="message" class="col-sm-3 col-form-label text-right tm-color-primary">Message</label>
+                            <label for="message" class="col-sm-3 col-form-label text-right tm-color-primary">{% trans 'Сообщение' %}</label>
                             <div class="col-sm-9">
                                 <textarea class="form-control mr-0 ml-auto" name="message" id="message" rows="8" required></textarea>                                
                             </div>
                         </div>
                         <div class="form-group row text-right">
                             <div class="col-12">
-                                <button class="tm-btn tm-btn-primary tm-btn-small">Submit</button>                        
+                                <button class="tm-btn tm-btn-primary tm-btn-small">{% trans 'ОТПРАВИТЬ' %}</button>
                             </div>                            
                         </div>                                
                     </form>
